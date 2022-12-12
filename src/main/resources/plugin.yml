@@ -1,0 +1,9 @@
+name: JMTP
+version: '${project.version}'
+main: ru.e2r7hn07fl47.jmtp.JMTP
+authors: [ E2r7hN07Fl47 ]
+description: Implementing teleportation through the worlds (actual for JourneyMap)
+
+commands:
+  wtp: {}
+  wtp_version: {}
