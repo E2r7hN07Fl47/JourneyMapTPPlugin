@@ -34,11 +34,13 @@ Plugin for Minecraft Spigot which allows teleporting through the dimensions (esp
 - ✅ KCauldron version 1.7.10-1492.152 (MC: 1.7.10) (1.7.10-R0.1-SNAPSHOT)
 - ✅ CatServer version CatServer-dae70adc (MC: 1.12.2) (1.12.2-R0.1-SpigotAPI)
 - ✅ CraftBukkit version git-Spigot-79a30d7-f4830a1 (MC: 1.12.2) (1.12.2-R0.1-SNAPSHOT)
+- ✅ Paper version git-Paper-1620 (MC: 1.12.2) (1.12.2-R0.1-SNAPSHOT)
 - ✅ Cardboard version git-7ae8ebd (MC: 1.18.2) (1.18.2-R0.1-SNAPSHOT) on **Fabric**
 - ✅ Cardboard version git-6841632 (MC: 1.18.2) (1.18.2-R0.1-SNAPSHOT) on **Fabric**
 - ❌ Cardboard version git-7ae8ebd (MC: 1.18.2) (1.18.2-R0.1-SNAPSHOT) on **Quilt**
 - ❌ Cardboard version git-6841632 (MC: 1.18.2) (1.18.2-R0.1-SNAPSHOT) on **Quilt**
 - ✅ CraftBukkit version 3608-Spigot-6198b5a-b5aa0be (MC: 1.19.2) (1.19.2-R0.1-SNAPSHOT)
+- ✅ Paper version git-Paper-333 (Git: eec64a4) (MC: 1.19.3) (1.19.3-R0.1-SNAPSHOT)
 
 
 ### Why not working
