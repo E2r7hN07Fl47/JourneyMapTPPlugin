@@ -6,7 +6,7 @@
 
     <groupId>ru.e2r7hn07fl47</groupId>
     <artifactId>JMTP</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>JMTP</name>

@@ -7,16 +7,44 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class JMTP extends JavaPlugin {
 
+    private List<String> getWorlds() {
+        List<World> worlds = Bukkit.getWorlds();
+        List<String> worldList = new ArrayList<>();
+        for (World world : worlds) {
+            worldList.add(world.getName());
+        }
+        return worldList;
+    }
+
+    private boolean checkIsForgeTypeDims(List<String> allWorlds) {
+        boolean isForgeDims = false;
+        for (String world : allWorlds) {
+            if (world.contains("DIM")) {
+                isForgeDims = true;
+                break;
+            }
+        }
+        return isForgeDims;
+    }
+
     @Override
     public void onEnable() {
-
         final Logger logger = this.getLogger();
+        final List<String> allWorlds = getWorlds();
 
-        final World overworld = Bukkit.getServer().getWorlds().get(0);
+        final boolean isForgeDims = checkIsForgeTypeDims(allWorlds);
+
+        final World overworld = Bukkit.getWorld("world");
+        // Last two uses only in "vanilla", in "forge" they should be null and calling them could cause NPE
+        final World nether = Bukkit.getWorld("world_nether");
+        final World the_end = Bukkit.getWorld("world_the_end");
+
 
         getCommand("wtp").setExecutor((sender, command, label, args) -> {
             if (!(sender instanceof Player)) return true;
@@ -35,19 +63,37 @@ public final class JMTP extends JavaPlugin {
                 return true;
             }
 
-            int dim, x, y, z;
-            dim = Integer.parseInt(args[0]);
-            x = Integer.parseInt(args[1]);
-            y = Integer.parseInt(args[2]);
-            z = Integer.parseInt(args[3]);
+            String dim;
+            double x, y, z;
+            dim = args[0];
+            x = Double.parseDouble(args[1]);
+            y = Double.parseDouble(args[2]);
+            z = Double.parseDouble(args[3]);
 
             Player player = Bukkit.getPlayer(nickname);
-            World world;
-            if (dim == 0) {
+            World world = null;
+            if (dim.equals("0") || dim.equals("minecraft:overworld") || dim.equals("world")) {
                 world = overworld;
             } else {
                 try {
-                    world = Bukkit.getServer().getWorld("DIM" + dim);
+                    if (isForgeDims) {
+                        // If forge-type dimensions, they should be "DIM{dim}"'
+                        if (!dim.startsWith("DIM")) {
+                            dim = "DIM" + dim;
+                        }
+                        world = Bukkit.getServer().getWorld(dim);
+                    }
+                    else {
+                        // This is fix for old MC versions
+                        if (dim.equals("-1") || dim.equals("minecraft:the_nether") || dim.equals("world_nether"))
+                            world = nether;
+                        else if (dim.equals("1") || dim.equals("minecraft:the_end") || dim.equals("world_the_end"))
+                            world = the_end;
+                        else {
+                            if (dim.contains(":")) dim = dim.replace(":", "_");
+                            world = Bukkit.getWorld(dim);
+                        }
+                    }
                     if (world == null) throw new NullPointerException();
                 } catch (Exception e) {
                     sender.sendMessage(ChatColor.RED + "No such dimension!");
@@ -69,8 +115,6 @@ public final class JMTP extends JavaPlugin {
                 e.printStackTrace();
                 return true;
             }
-
-
             return true;
         });
 
@@ -79,6 +123,16 @@ public final class JMTP extends JavaPlugin {
             return true;
         });
 
+
+        getCommand("wtp_dims_list").setExecutor((sender, command, label, args) -> {
+            StringBuilder sb = new StringBuilder();
+            for (String world : allWorlds) {
+                sb.append('\n');
+                sb.append(world);
+            }
+            sender.sendMessage(ChatColor.DARK_GREEN + "Here is all dimensions:" + sb);
+            return true;
+        });
     }
 
     @Override
